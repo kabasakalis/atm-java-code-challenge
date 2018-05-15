@@ -3,7 +3,7 @@ package com.kabasakalis.atm;
 import java.math.BigInteger;
 import java.util.function.Supplier;
 
-enum Banknote implements Supplier<BigInteger> {
+public enum Banknote implements Supplier<BigInteger> {
   FIFTY("$50", () -> BigInteger.valueOf(50)),
   TWENTY("$20", () -> BigInteger.valueOf(20));
 
