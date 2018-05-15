@@ -85,8 +85,8 @@ public class BanknoteBundle implements Comparable<BanknoteBundle> {
     }
 
     BanknoteBundle banknoteBundle = (BanknoteBundle) o;
-
-    return this.getBanknotes().stream().reduce(true, (banknote) ->
-              getBanknoteCount(banknote).equals(banknoteBundle.getBanknoteCount(banknote)));
+    return this.getBanknotes().stream().allMatch( (banknote) ->
+              getBanknoteCount(banknote).equals(banknoteBundle.getBanknoteCount(banknote))
+                      && getBanknotes().size() == banknoteBundle.getBanknotes().size());
   }
 }

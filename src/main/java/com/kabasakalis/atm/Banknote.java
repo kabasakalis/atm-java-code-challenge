@@ -5,7 +5,8 @@ import java.util.function.Supplier;
 
 public enum Banknote implements Supplier<BigInteger> {
   FIFTY("$50", () -> BigInteger.valueOf(50)),
-  TWENTY("$20", () -> BigInteger.valueOf(20));
+  TWENTY("$20", () -> BigInteger.valueOf(20)),
+  TEN("$10", () -> BigInteger.valueOf(10));
 
   private final Supplier<BigInteger> supplier;
   private String symbol;
