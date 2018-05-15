@@ -13,12 +13,13 @@ public class BanknoteBundle {
     this.store = store;
   }
 
-  public Optional<BigInteger> getAmount() {
+  public BigInteger getAmount() {
 
     return store
         .entrySet()
         .stream()
         .map((a) -> a.getKey().get().multiply(a.getValue()))
-        .reduce(BigInteger::add);
+        .reduce(BigInteger::add)
+        .get();
   }
 }
