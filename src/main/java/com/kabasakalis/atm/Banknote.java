@@ -1,5 +1,6 @@
 package com.kabasakalis.atm;
 
+import java.math.BigInteger;
 import java.util.function.Supplier;
 
 public enum Banknote implements Supplier<Long> {

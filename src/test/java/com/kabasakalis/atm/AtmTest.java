@@ -76,4 +76,6 @@ public class AtmTest {
     combinations.forEach(printCombinationsConsumer);
     assertEquals(15, combinations.size());
   }
+
+
 }

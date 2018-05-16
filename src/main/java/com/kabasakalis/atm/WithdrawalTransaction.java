@@ -11,26 +11,28 @@ import static com.kabasakalis.atm.Banknote.TWENTY;
 public class WithdrawalTransaction implements Transaction {
 
   private Atm atm;
-  private Long amount;
+  private String errorMessage;
+  private BanknoteBundle withdrawBanknoteBundle;
 
-  public WithdrawalTransaction(Atm atm, Long amount) {
+  public WithdrawalTransaction(Atm atm, BanknoteBundle withdrawBanknoteBundle) {
     this.atm = atm;
-    this.amount = amount;
+    this.withdrawBanknoteBundle = withdrawBanknoteBundle;
   }
 
   @Override
-  public void execute() {
+  public boolean execute() {
     // withdraw
-    BanknoteBundle amountAsBanknoteBundle;
-    BanknoteBundle resultBanknoteBundle;
-    //    if (withDrawalIsLegal(amountAsBanknoteBundle))
-    //      atm.getTotalBanknoteBundle().substract(amountAsBanknoteBundle);
-  }
+    //    if (withdrawBanknoteBundle.getAmount() > atm.getTotalAmount()) {
+    //      this.errorMessage =
+    //          " Insufficient ATM cash supply, try an amount less or equal than " +
+    // atm.getTotalAmount();
+    //      return false;
+    //    }
 
-  private boolean withDrawalIsLegal(BanknoteBundle amountAsBanknoteBundle) {
-    return (atm.getTotalBanknoteBundle().getAmount().compareTo(amountAsBanknoteBundle.getAmount())
-            >= 0)
-        && atm.getTotalBanknoteBundle().substract(amountAsBanknoteBundle).isPresent();
+    Optional<BanknoteBundle> newTotalBanknoteBundle =
+        atm.getTotalBanknoteBundle().substract(withdrawBanknoteBundle);
+    newTotalBanknoteBundle.ifPresent(banknoteBundle -> atm.setTotalBanknoteBundle(banknoteBundle));
+    return newTotalBanknoteBundle.isPresent();
   }
 
 

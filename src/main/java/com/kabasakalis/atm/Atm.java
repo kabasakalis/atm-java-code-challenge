@@ -12,7 +12,6 @@ import static com.kabasakalis.atm.Banknote.TWENTY;
 public class Atm {
 
   private BanknoteBundle totalBanknoteBundle;
-  private AtmProgram program = new AtmProgram();
 
   public Atm(BanknoteBundle totalBanknoteBundle) {
     this.totalBanknoteBundle = totalBanknoteBundle;
@@ -64,13 +63,12 @@ public class Atm {
 
 
  private boolean areAtmBanknotesEnoughForTransasction(BanknoteBundle withdrawal)  {
-  return  totalBanknoteBundle.getBanknoteCount(FIFTY) >=  withdrawal.getBanknoteCount(FIFTY) &&
-          totalBanknoteBundle.getBanknoteCount(TWENTY) >=  withdrawal.getBanknoteCount(TWENTY) ;
+  return  this.getFiftiesCount() >=  withdrawal.getBanknoteCount(FIFTY) &&
+          this.getTwentiesCount() >=  withdrawal.getBanknoteCount(TWENTY) ;
  }
 
  private boolean areAtmBanknotesEnoughForTransasction(Long twentiesCount, Long fiftiesCount)  {
-  return  totalBanknoteBundle.getBanknoteCount(FIFTY) >=  fiftiesCount &&
-          totalBanknoteBundle.getBanknoteCount(TWENTY) >= twentiesCount ;
+  return  this.getFiftiesCount() >=  fiftiesCount && this.getTwentiesCount() >= twentiesCount ;
  }
 
 

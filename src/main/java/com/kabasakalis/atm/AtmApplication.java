@@ -1,13 +1,16 @@
 package com.kabasakalis.atm;
+
 import com.kabasakalis.atm.AtmProgram;
 
+import java.util.Map;
+
+import static com.kabasakalis.atm.Banknote.FIFTY;
+import static com.kabasakalis.atm.Banknote.TWENTY;
 
 public class AtmApplication {
   public static void main(String[] args) {
-    AtmProgram.start();
-
-    //check whether Java8 syntax compiles
-    // System.out.println("Hello world!, it works!");
+    BanknoteBundle atmInitialLoad = new BanknoteBundle(Map.of(TWENTY, 100L, FIFTY, 50L));
+    Atm atm = new Atm(atmInitialLoad);
+    new AtmProgram(atm);
   }
-
 }

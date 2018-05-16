@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.UnaryOperator;
 import com.kabasakalis.atm.exception.IllegalBanknoteSubstractionException;
 
+
 import static com.kabasakalis.atm.Banknote.FIFTY;
 import static com.kabasakalis.atm.Banknote.TWENTY;
 
@@ -96,6 +97,6 @@ public class BanknoteBundle implements Comparable<BanknoteBundle> {
     @Override
     public String toString() {
         return "[ " +getBanknoteCount(TWENTY) + " "  + TWENTY.getSymbol() + " | " +
-                getBanknoteCount(FIFTY) + " "  + TWENTY.getSymbol() + " ]";
+                getBanknoteCount(FIFTY) + " "  + FIFTY.getSymbol() + " ]";
     }
 }
