@@ -15,14 +15,13 @@ import static org.junit.Assert.*;
 public class BanknoteTest {
 
   @Test
-  public void values() throws Exception {
-    assertEquals(FIFTY.get(), BigInteger.valueOf(50));
-    assertEquals(TWENTY.get(), BigInteger.valueOf(20));
-
+  public void getShouldReturnBanknotevalues() throws Exception {
+      assertEquals(50L, (long) FIFTY.get());
+      assertEquals(20L, (long) TWENTY.get());
   }
 
   @Test
-  public void symbols() throws Exception {
+  public void getSymbolShouldReturnBanknoteSymbols() throws Exception {
     assertEquals(FIFTY.getSymbol(), "$50");
     assertEquals(TWENTY.getSymbol(), "$20");
   }

@@ -1,17 +1,16 @@
 package com.kabasakalis.atm;
 
-import java.math.BigInteger;
 import java.util.function.Supplier;
 
-public enum Banknote implements Supplier<BigInteger> {
-  FIFTY("$50", () -> BigInteger.valueOf(50)),
-  TWENTY("$20", () -> BigInteger.valueOf(20)),
-  TEN("$10", () -> BigInteger.valueOf(10));
+public enum Banknote implements Supplier<Long> {
+  FIFTY("$50", () -> 50L),
+  TWENTY("$20", () -> 20L),
+  TEN("$10", () -> 10L);
 
-  private final Supplier<BigInteger> supplier;
+  private final Supplier<Long> supplier;
   private String symbol;
 
-  private Banknote(String symbol, final Supplier<BigInteger> supplier) {
+  private Banknote(String symbol, final Supplier<Long> supplier) {
     this.symbol = symbol;
     this.supplier = supplier;
   }
@@ -21,7 +20,7 @@ public enum Banknote implements Supplier<BigInteger> {
   }
 
   @Override
-  public BigInteger get() {
+  public Long get() {
     return supplier.get();
   }
 
