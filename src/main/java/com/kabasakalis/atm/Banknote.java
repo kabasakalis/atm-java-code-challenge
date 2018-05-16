@@ -24,4 +24,8 @@ public enum Banknote implements Supplier<BigInteger> {
   public BigInteger get() {
     return supplier.get();
   }
+
+  public int getAsInt(){
+    return get().intValue();
+  }
 }
