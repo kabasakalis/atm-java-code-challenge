@@ -1,5 +1,6 @@
 package com.kabasakalis.atm;
 
+import org.beryx.textio.InputReader;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
@@ -13,6 +14,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -27,7 +29,6 @@ public class AtmProgram implements BiConsumer<TextIO, RunnerData> {
   private Atm atm;
   private TextIO textIO;
   private TextTerminal<?> terminal;
-
 
   public AtmProgram(Atm atm) {
     this.atm = atm;
@@ -71,7 +72,7 @@ public class AtmProgram implements BiConsumer<TextIO, RunnerData> {
 
   private void mainMenu() {
 
-      terminal.setBookmark("START");
+    terminal.setBookmark("START");
     terminal.println("              Welcome to Kabasakalis Bank");
     terminal.println("              Main Menu");
     terminal.println("");
@@ -81,57 +82,93 @@ public class AtmProgram implements BiConsumer<TextIO, RunnerData> {
     terminal.println("4.  Reset");
 
     int mainMenuChoice =
-        textIO.newIntInputReader().withInlinePossibleValues(1,2,3).read("Please Select option");
+        textIO.newIntInputReader().withInlinePossibleValues(1, 2, 3).read("Please Select option");
 
     if (mainMenuChoice == 1) printAtmCashLoadInfo();
-      if (mainMenuChoice == 2) withdrawMenu();
-      if (mainMenuChoice == 3) reset();
+    if (mainMenuChoice == 2) withdrawMenu();
+    if (mainMenuChoice == 3) reset();
 
-      terminal.setBookmark("MAIN MENU");
+    terminal.setBookmark("MAIN MENU");
   }
-
 
   private void printAtmCashLoadInfo() {
     terminal.println("Current available cash on this ATM is " + "$" + atm.getTotalAmount());
     terminal.println("Banknote distribution is " + atm.getTotalBanknoteBundle().toString());
   }
 
+  private void reset() {
 
-private  void reset(){
+    terminal.resetToBookmark("START");
+    mainMenu();
 
-     terminal.resetToBookmark("START");
-     mainMenu();
+    //    terminal.println("       Mljklasdjf; Menu");
+  }
 
-//    terminal.println("       Mljklasdjf; Menu");
-}
+  private void withdrawMenu() {
 
-private  void withdrawMenu(){
+    terminal.setBookmark("START WITHDRAW");
 
-terminal.println("Please type the amount to withdraw.");
+    InputReader.ErrorMessagesProvider errorMessagesProvider =
+        (val, itemname) -> new ArrayList<String>(List.of("SSDG"));
 
+    printAtmCashLoadInfo();
+    terminal.println("Please type the amount to withdraw.");
     Long amount =
-        textIO.newLongInputReader()
-                .withMinVal(20L)
-                .read("Amount:");
+        textIO
+            .newGenericInputReader()
+            .withParseErrorMessagesProvider(errorMessagesProvider)
+            .withMinVal(TWENTY.get())
+            .withMaxVal(atm.getTotalAmount())
+            .read("Amount:");
 
-    Set<BanknoteBundle> combinations = atm.getPossibleBanknoteBundlesForAmount(amount);
+    //    if (atm.getTotalAmount() < amount) {
+    //
+    //      terminal.resetToBookmark("START WITHDRAW");
+    //      terminal.println("Your amount is bigger than the available cash on this machine.");
+    //      printAtmCashLoadInfo();
+    //    }
+
+    // Select Combination Strategy filter
+    BanknoteCombinationStrategy banknoteCombinationStrategy =
+        textIO
+            .newEnumInputReader(BanknoteCombinationStrategy.class)
+            .read("Choose your favorite distribution of banknotes");
+
+    Set<BanknoteBundle> combinations =
+        atm.getPossibleBanknoteBundlesForAmount(amount)
+            .stream()
+            .filter(banknoteCombinationStrategy)
+            .limit(15)
+            .collect(Collectors.toSet());
+
+    //    Consumer<BanknoteBundle> printb = b -> System.out.println(b.toString());
+    //    System.out.println("Set");
+    //    combinations.forEach(printb);
+    //
     List<BanknoteBundle> combinationsList = new ArrayList<>(combinations);
-    Consumer<Integer> printCombinationsConsumer =
-            i -> terminal.println( i + "." +  combinationsList.get(i).toString() );
+    //    System.out.println("List");
+    //    combinationsList.forEach(printb);
 
-    IntStream.range(0, combinations.size()-1).boxed().forEach( printCombinationsConsumer);
+    // print Combinations
+    Consumer<Integer> printCombinationsListConsumer =
+        i -> terminal.println(i + "." + combinationsList.get(i - 1).toString());
+    IntStream.rangeClosed(1, combinationsList.size())
+        .boxed()
+        .forEach(printCombinationsListConsumer);
 
-    terminal.println("Please Select Combination of Banknotes");
-     int combinationIndex =
-        textIO.newIntInputReader()
-                .withMinVal(0)
-                .withMaxVal(combinationsList.size() -1 )
-                .read("Combination:");
+    terminal.println(
+        "Please Select Combination of Banknotes based on your favorite distribution: "
+            + banknoteCombinationStrategy.toString());
+    int combinationIndex =
+        textIO
+            .newIntInputReader()
+            .withMinVal(1)
+            .withMaxVal(combinationsList.size())
+            .read("Combination:");
 
-
-}
-
-
+    System.out.println("Chosen:");
+    System.out.println(combinationsList.get(combinationIndex - 1));
+  }
 
   @Override
   public String toString() {
