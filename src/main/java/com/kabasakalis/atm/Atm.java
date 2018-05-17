@@ -62,10 +62,10 @@ public class Atm {
   }
 
 
- private boolean areAtmBanknotesEnoughForTransasction(BanknoteBundle withdrawal)  {
-  return  this.getFiftiesCount() >=  withdrawal.getBanknoteCount(FIFTY) &&
-          this.getTwentiesCount() >=  withdrawal.getBanknoteCount(TWENTY) ;
- }
+// private boolean areAtmBanknotesEnoughForTransasction(BanknoteBundle withdrawal)  {
+//  return  this.getFiftiesCount() >=  withdrawal.getBanknoteCount(FIFTY) &&
+//          this.getTwentiesCount() >=  withdrawal.getBanknoteCount(TWENTY) ;
+// }
 
  private boolean areAtmBanknotesEnoughForTransasction(Long twentiesCount, Long fiftiesCount)  {
   return  this.getFiftiesCount() >=  fiftiesCount && this.getTwentiesCount() >= twentiesCount ;
