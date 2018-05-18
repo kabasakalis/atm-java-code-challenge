@@ -1,9 +1,7 @@
 package com.kabasakalis.atm;
 
-import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -70,7 +68,6 @@ public class Atm {
         .limit(limit)
         .collect(Collectors.toSet());
   }
-
 
   private boolean areAtmBanknotesEnoughForTransasction(Long twentiesCount, Long fiftiesCount) {
     return this.getFiftiesCount() >= fiftiesCount && this.getTwentiesCount() >= twentiesCount;

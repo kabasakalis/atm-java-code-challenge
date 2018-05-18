@@ -1,12 +1,11 @@
 package com.kabasakalis.atm;
 
-import java.math.BigInteger;
 import java.util.function.Supplier;
 
 public enum Banknote implements Supplier<Long> {
   FIFTY("$50", () -> 50L),
   TWENTY("$20", () -> 20L),
-  TEN("$10", () -> 10L);
+  TEN("$10", () -> 10L); // Tens are never used in the application
 
   private final Supplier<Long> supplier;
   private String symbol;
@@ -20,12 +19,10 @@ public enum Banknote implements Supplier<Long> {
     return symbol;
   }
 
+
   @Override
   public Long get() {
     return supplier.get();
   }
 
-  public int getAsInt(){
-    return get().intValue();
-  }
 }

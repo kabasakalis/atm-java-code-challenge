@@ -22,8 +22,12 @@ public class AtmProgram implements BiConsumer<TextIO, RunnerData> {
     this.atm = atm;
     this.textIO = TextIoFactory.getTextIO();
     this.terminal = textIO.getTextTerminal();
-    accept(textIO, null);
   }
+
+  public  void start() {
+      accept(textIO, null);
+  }
+
 
   @Override
   public void accept(TextIO textIO, RunnerData runnerData) {

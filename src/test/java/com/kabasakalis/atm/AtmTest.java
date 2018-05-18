@@ -2,22 +2,32 @@ package com.kabasakalis.atm;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 import static com.kabasakalis.atm.Banknote.FIFTY;
 import static com.kabasakalis.atm.Banknote.TWENTY;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AtmTest {
   private Atm atm;
   Consumer<BanknoteBundle> printCombinationsConsumer = b -> System.out.println(b.toString());
+
+  @Rule
+  public TestRule watcher =
+      new TestWatcher() {
+        protected void starting(Description description) {
+          System.out.println("Starting test: " + description.getMethodName());
+        }
+      };
 
   @Before
   public void setUp() throws Exception {
@@ -76,6 +86,4 @@ public class AtmTest {
     combinations.forEach(printCombinationsConsumer);
     assertEquals(15, combinations.size());
   }
-
-
 }

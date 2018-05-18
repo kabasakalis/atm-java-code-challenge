@@ -13,6 +13,6 @@ public class AtmApplication {
     BanknoteBundle atmInitialLoad = new BanknoteBundle(Map.of(TWENTY, 100L, FIFTY, 50L));
     Atm atm = new Atm(atmInitialLoad);
     // start ATM software
-    new AtmProgram(atm);
+    new AtmProgram(atm).start();
   }
 }

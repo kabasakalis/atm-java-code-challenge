@@ -1,9 +1,9 @@
 package com.kabasakalis.atm;
 
-import java.util.*;
-import java.util.function.UnaryOperator;
-import com.kabasakalis.atm.exception.IllegalBanknoteSubstractionException;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.kabasakalis.atm.Banknote.FIFTY;
 import static com.kabasakalis.atm.Banknote.TWENTY;
@@ -16,14 +16,11 @@ public class BanknoteBundle implements Comparable<BanknoteBundle> {
   }
 
   public BanknoteBundle add(BanknoteBundle banknoteBundle) {
-
     HashMap<Banknote, Long> result = new HashMap<Banknote, Long>();
-
     this.getBanknotes()
         .forEach(
             (Banknote banknote) -> {
-              Long value =
-                  getBanknoteCount(banknote) + banknoteBundle.getBanknoteCount(banknote);
+              Long value = getBanknoteCount(banknote) + banknoteBundle.getBanknoteCount(banknote);
               result.put(banknote, value);
             });
 
@@ -41,7 +38,6 @@ public class BanknoteBundle implements Comparable<BanknoteBundle> {
   }
 
   public Optional<BanknoteBundle> substract(BanknoteBundle banknoteBundle) {
-
     HashMap<Banknote, Long> result = new HashMap<Banknote, Long>();
     this.getBanknotes()
         .forEach(
@@ -51,17 +47,15 @@ public class BanknoteBundle implements Comparable<BanknoteBundle> {
               Long value = leftCount - rightCount;
               result.put(banknote, value);
             });
-    boolean existsNegativeCount =
-        result.values().stream().anyMatch((count) -> count < 0);
+    boolean existsNegativeCount = result.values().stream().anyMatch((count) -> count < 0);
     return existsNegativeCount ? Optional.empty() : Optional.of(new BanknoteBundle(result));
   }
 
   public Long getAmount() {
-
     return store
         .entrySet()
         .stream()
-        .map((a) -> a.getKey().get()*(a.getValue()))
+        .map((a) -> a.getKey().get() * (a.getValue()))
         .reduce(Long::sum)
         .get();
   }
@@ -86,17 +80,25 @@ public class BanknoteBundle implements Comparable<BanknoteBundle> {
     if (!(o instanceof BanknoteBundle)) {
       return false;
     }
-
     BanknoteBundle banknoteBundle = (BanknoteBundle) o;
-    return this.getBanknotes().stream().allMatch( (banknote) ->
-              getBanknoteCount(banknote).equals(banknoteBundle.getBanknoteCount(banknote))
-                      && getBanknotes().size() == banknoteBundle.getBanknotes().size());
+    return this.getBanknotes()
+        .stream()
+        .allMatch(
+            (banknote) ->
+                getBanknoteCount(banknote).equals(banknoteBundle.getBanknoteCount(banknote))
+                    && getBanknotes().size() == banknoteBundle.getBanknotes().size());
   }
 
-
-    @Override
-    public String toString() {
-        return "[ " +getBanknoteCount(TWENTY) + " "  + TWENTY.getSymbol() + " | " +
-                getBanknoteCount(FIFTY) + " "  + FIFTY.getSymbol() + " ]";
-    }
+  @Override
+  public String toString() {
+    return "[ "
+        + getBanknoteCount(TWENTY)
+        + " "
+        + TWENTY.getSymbol()
+        + " | "
+        + getBanknoteCount(FIFTY)
+        + " "
+        + FIFTY.getSymbol()
+        + " ]";
+  }
 }
