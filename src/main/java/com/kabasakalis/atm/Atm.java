@@ -11,6 +11,7 @@ import static com.kabasakalis.atm.Banknote.TWENTY;
 
 public class Atm {
 
+  public static final Long COMBINATION_LIMIT = 15L;
   private BanknoteBundle totalBanknoteBundle;
 
   public Atm(BanknoteBundle totalBanknoteBundle) {
@@ -25,12 +26,12 @@ public class Atm {
     return totalBanknoteBundle.getBanknotes();
   }
 
-  public Long getFiftiesCount(){
-      return  totalBanknoteBundle.getBanknoteCount(FIFTY);
+  public Long getFiftiesCount() {
+    return totalBanknoteBundle.getBanknoteCount(FIFTY);
   }
 
-  public Long getTwentiesCount(){
-      return  totalBanknoteBundle.getBanknoteCount(TWENTY);
+  public Long getTwentiesCount() {
+    return totalBanknoteBundle.getBanknoteCount(TWENTY);
   }
 
   public BanknoteBundle getTotalBanknoteBundle() {
@@ -40,7 +41,6 @@ public class Atm {
   public void setTotalBanknoteBundle(BanknoteBundle totalBanknoteBundle) {
     this.totalBanknoteBundle = totalBanknoteBundle;
   }
-
 
   public Set<BanknoteBundle> getPossibleBanknoteBundlesForAmount(Long amount) {
     final Long fiftyValue = FIFTY.get();
@@ -58,18 +58,15 @@ public class Atm {
         }
       }
     }
-    return  result;
+    return result;
   }
 
+  // private boolean areAtmBanknotesEnoughForTransasction(BanknoteBundle withdrawal)  {
+  //  return  this.getFiftiesCount() >=  withdrawal.getBanknoteCount(FIFTY) &&
+  //          this.getTwentiesCount() >=  withdrawal.getBanknoteCount(TWENTY) ;
+  // }
 
-// private boolean areAtmBanknotesEnoughForTransasction(BanknoteBundle withdrawal)  {
-//  return  this.getFiftiesCount() >=  withdrawal.getBanknoteCount(FIFTY) &&
-//          this.getTwentiesCount() >=  withdrawal.getBanknoteCount(TWENTY) ;
-// }
-
- private boolean areAtmBanknotesEnoughForTransasction(Long twentiesCount, Long fiftiesCount)  {
-  return  this.getFiftiesCount() >=  fiftiesCount && this.getTwentiesCount() >= twentiesCount ;
- }
-
-
+  private boolean areAtmBanknotesEnoughForTransasction(Long twentiesCount, Long fiftiesCount) {
+    return this.getFiftiesCount() >= fiftiesCount && this.getTwentiesCount() >= twentiesCount;
+  }
 }
