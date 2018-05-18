@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.kabasakalis.atm.Banknote.FIFTY;
 import static com.kabasakalis.atm.Banknote.TWENTY;
@@ -61,10 +62,15 @@ public class Atm {
     return result;
   }
 
-  // private boolean areAtmBanknotesEnoughForTransasction(BanknoteBundle withdrawal)  {
-  //  return  this.getFiftiesCount() >=  withdrawal.getBanknoteCount(FIFTY) &&
-  //          this.getTwentiesCount() >=  withdrawal.getBanknoteCount(TWENTY) ;
-  // }
+  public Set<BanknoteBundle> getPossibleBanknoteBundlesForAmount(
+      Long amount, BanknoteCombinationStrategy strategy, Long limit) {
+    return getPossibleBanknoteBundlesForAmount(amount)
+        .stream()
+        .filter(strategy)
+        .limit(limit)
+        .collect(Collectors.toSet());
+  }
+
 
   private boolean areAtmBanknotesEnoughForTransasction(Long twentiesCount, Long fiftiesCount) {
     return this.getFiftiesCount() >= fiftiesCount && this.getTwentiesCount() >= twentiesCount;
