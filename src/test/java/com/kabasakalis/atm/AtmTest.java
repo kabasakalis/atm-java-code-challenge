@@ -9,7 +9,9 @@ import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
+import java.util.HashSet;
 import java.util.function.Consumer;
 
 import static com.kabasakalis.atm.Banknote.FIFTY;
@@ -31,7 +33,11 @@ public class AtmTest {
 
   @Before
   public void setUp() throws Exception {
-    BanknoteBundle atmInitialLoad = new BanknoteBundle(Map.of(TWENTY, 100L, FIFTY, 50L));
+         Map<Banknote, Long>  notes_to_count = new HashMap<Banknote, Long>();        
+           notes_to_count.put(FIFTY, 50L);
+           notes_to_count.put(TWENTY, 100L);
+
+    BanknoteBundle atmInitialLoad = new BanknoteBundle(notes_to_count);
     atm = new Atm(atmInitialLoad);
   }
 
@@ -45,7 +51,10 @@ public class AtmTest {
 
   @Test
   public void getTotalBanknotes() {
-    assertEquals(atm.getTotalBanknotes(), Set.of(TWENTY, FIFTY));
+    Set<Banknote> set = new HashSet<>();
+    set.add(TWENTY);
+    set.add(FIFTY);
+    assertEquals(atm.getTotalBanknotes(), set);
   }
 
   @Test

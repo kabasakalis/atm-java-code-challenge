@@ -1,12 +1,14 @@
 package com.kabasakalis.atm;
 
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.kabasakalis.atm.Banknote.FIFTY;
 import static com.kabasakalis.atm.Banknote.TWENTY;
+import  com.kabasakalis.atm.Banknote;
 
 public class Atm {
 
@@ -51,8 +53,11 @@ public class Atm {
       if ((amount - fiftyValue * fiftiesCount) % twentyValue == 0) {
         Long twentiesCount = (amount - fiftyValue * fiftiesCount) / twentyValue;
         if (areAtmBanknotesEnoughForTransasction(twentiesCount, fiftiesCount)) {
+           Map<Banknote, Long>  notes_to_count = new HashMap<Banknote, Long>();        
+           notes_to_count.put(FIFTY, fiftiesCount);
+           notes_to_count.put(TWENTY, twentiesCount);
           BanknoteBundle validCombinationOfBanknotes =
-              new BanknoteBundle(Map.of(FIFTY, fiftiesCount, TWENTY, twentiesCount));
+              new BanknoteBundle(notes_to_count);
           result.add(validCombinationOfBanknotes);
         }
       }

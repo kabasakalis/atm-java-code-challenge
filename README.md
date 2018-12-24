@@ -34,8 +34,7 @@ Failure to dispense money due to an error should not reduce the amount of availa
 for better console interaction experience.
 
 ### Build Prerequisites
-- [Java SE 9 or greater](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
-In case you use Java 10 you should change `sourceCompatibility = 1.9` to `sourceCompatibility = 1.10`
+- [Java SE 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 in `build.gradle` file.
 - [Gradle Build Tool, (latest version)](https://gradle.org/install/) to simplify compilation and dependency management.
 
